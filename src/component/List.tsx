@@ -1,10 +1,15 @@
 import { Calendar } from "antd";
-import { useRef } from "react";
+import { CSSProperties, useRef } from "react";
+const style: CSSProperties = {
+    border: "5px solid gray",
+};
 export default function List() {
     const calendar = useRef<HTMLLIElement>(null);
     return (
-        <div>
-            <Calendar />
+        <div className="component-list" style={style}>
+            <div className="site-calendar-demo-card">
+                <Calendar fullscreen={false} />
+            </div>
         </div>
     );
 }
