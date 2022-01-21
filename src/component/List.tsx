@@ -3,7 +3,7 @@ import DraggableButtonA from "./Button/DraggableButtonA";
 import DraggableButtonB from "./Button/DraggableButtonB";
 import DraggableButtonC from "./Button/DraggableButtonC";
 import DraggableCalendar from "./Calendar/DraggableCalendar";
-import Carousel from "./Carousel/Carousel";
+import DraggableCarousel from "./Carousel/DraggableCarousel";
 const style: CSSProperties = {
     display: "flex",
     flexDirection: "column",
@@ -20,7 +20,7 @@ export default function List() {
             <DraggableButtonA />
             <DraggableButtonB />
             <DraggableButtonC />
-            <Carousel />
+            <DraggableCarousel />
         </div>
     );
 }

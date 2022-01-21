@@ -57,7 +57,7 @@ export default function Preview() {
                     component.com = <ButtonC style={comStyle}/>;
                     break;
                 case "Carousel":
-                    component.com = <Carousel />;
+                    component.com = <Carousel style={style}/>;
                     break;
                 default:
                     break;

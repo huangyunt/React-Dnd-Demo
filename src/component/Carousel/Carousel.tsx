@@ -1,5 +1,4 @@
 import { Carousel } from "antd";
-import { useDrag } from "react-dnd";
 const contentStyle: React.CSSProperties = {
     height: "160px",
     color: "#fff",
@@ -8,19 +7,13 @@ const contentStyle: React.CSSProperties = {
     background: "#364d79",
 };
 
-export default function MyCarousel() {
-    const [, drag] = useDrag(() => ({
-        type: "Draggable-Component",
-        item: { type: "Carousel" },
-    }));
+const MyCarousel: React.FC<{ style?: any }> = ({ style }) => {
     return (
-        <div ref={drag} style={{width: "90%"}}>
-            <Carousel effect="fade">
-                <div>
-                    <h3 style={contentStyle}>1</h3>
-                </div>
-            </Carousel>
-            ,
-        </div>
+        <Carousel effect="fade" style={style}>
+            <div>
+                <h3 style={contentStyle}>1</h3>
+            </div>
+        </Carousel>
     );
 }
+export default MyCarousel;
