@@ -8,6 +8,7 @@ import Carousel from "./Carousel/Carousel";
 import ComponentBox from "./Component-box/ComponentBox";
 export interface ComponentType {
     id: number;
+    type: string;
     com?: JSX.Element;
 }
 const style: CSSProperties = {
@@ -18,11 +19,10 @@ const style: CSSProperties = {
 export default function Preview() {
     const [componentList, setComponentList] = useState<ComponentType[]>([]);
     const ref = useRef<HTMLDivElement>(null);
-    const count = useRef(0);
+    const count = useRef<number>(0);
     const [, drop] = useDrop(() => ({
         accept: "Draggable-Component",
-        drop: (item: { type: string }, monitor) => {
-            console.log(item);
+        drop: (item: { type: string; id?: number }, monitor) => {
             // 以父容器为基准定位
             const dropBox = ref.current!.getBoundingClientRect();
             const clientOffset = monitor.getClientOffset();
@@ -42,35 +42,40 @@ export default function Preview() {
                 left: clientOffset!.x - dropBox.left - mouseClientX - 5,
                 top: clientOffset!.y - dropBox.top - mouseClientY - 5,
             };
-            const component: ComponentType = { id: count.current++ };
+            const component: ComponentType = {
+                id: typeof item.id !== "undefined" ? item.id : count.current++,
+                type: item.type,
+            };
             switch (item.type) {
                 case "Calendar":
                     component.com = <Calendar style={comStyle} />;
                     break;
                 case "Button1":
-                    component.com = <ButtonA style={comStyle}/>;
+                    component.com = <ButtonA style={comStyle} />;
                     break;
                 case "Button2":
-                    component.com = <ButtonB style={comStyle}/>;
+                    component.com = <ButtonB style={comStyle} />;
                     break;
                 case "Button3":
-                    component.com = <ButtonC style={comStyle}/>;
+                    component.com = <ButtonC style={comStyle} />;
                     break;
                 case "Carousel":
-                    component.com = <Carousel style={style}/>;
+                    component.com = <Carousel style={comStyle} />;
                     break;
                 default:
                     break;
             }
 
-            // setComponentList(list => {
-            //     const findId = list.findIndex(opt => opt.id === component.id);
-            //     return findId === -1
-            //         ? [...list, component]
-            //         : [...list].splice(findId, 1, component);
-            // });
-            setComponentList(list => [...list, component]);
-            // setComponentList([...componentList, component]);
+            setComponentList(list => {
+                const ind = list.findIndex(op => op.id === item.id);
+                const ret = [...list];
+                if (ind === -1) {
+                    ret.push(component);
+                } else {
+                    ret.splice(ind, 1, component);
+                }
+                return ret;
+            });
         },
     }));
     return drop(

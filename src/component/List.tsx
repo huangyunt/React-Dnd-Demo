@@ -16,7 +16,6 @@ export default function List() {
     return (
         <div className="component-list" style={style}>
             <DraggableCalendar />
-            {/* <Calendar /> */}
             <DraggableButtonA />
             <DraggableButtonB />
             <DraggableButtonC />
