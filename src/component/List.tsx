@@ -1,15 +1,23 @@
-import { Calendar } from "antd";
-import { CSSProperties, useRef } from "react";
+import { CSSProperties } from "react";
+import Button from "./Button/Button";
+// import Calendar from "./Calendar/Calendar";
+import DraggableCalendar from "./Calendar/DraggableCalendar";
+import Carousel from "./Carousel/Carousel";
 const style: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: 400,
     border: "5px solid gray",
 };
 export default function List() {
-    const calendar = useRef<HTMLLIElement>(null);
     return (
         <div className="component-list" style={style}>
-            <div className="site-calendar-demo-card">
-                <Calendar fullscreen={false} />
-            </div>
+            <DraggableCalendar/>
+            {/* <Calendar /> */}
+            <Button />
+            <Carousel />
         </div>
     );
 }
