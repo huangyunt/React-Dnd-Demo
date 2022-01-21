@@ -1,5 +1,8 @@
 import { CSSProperties, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
+import ButtonA from "./Button/ButtonA";
+import ButtonB from "./Button/ButtonB";
+import ButtonC from "./Button/ButtonC";
 import Calendar from "./Calendar/Calendar";
 import Carousel from "./Carousel/Carousel";
 import ComponentBox from "./Component-box/ComponentBox";
@@ -45,13 +48,13 @@ export default function Preview() {
                     component.com = <Calendar style={comStyle} />;
                     break;
                 case "Button1":
-                    component.com = <Calendar />;
+                    component.com = <ButtonA style={comStyle}/>;
                     break;
                 case "Button2":
-                    component.com = <Calendar />;
+                    component.com = <ButtonB style={comStyle}/>;
                     break;
                 case "Button3":
-                    component.com = <Calendar />;
+                    component.com = <ButtonC style={comStyle}/>;
                     break;
                 case "Carousel":
                     component.com = <Carousel />;

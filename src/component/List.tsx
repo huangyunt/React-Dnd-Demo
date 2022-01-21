@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
-import Button from "./Button/Button";
-// import Calendar from "./Calendar/Calendar";
+import DraggableButtonA from "./Button/DraggableButtonA";
+import DraggableButtonB from "./Button/DraggableButtonB";
+import DraggableButtonC from "./Button/DraggableButtonC";
 import DraggableCalendar from "./Calendar/DraggableCalendar";
 import Carousel from "./Carousel/Carousel";
 const style: CSSProperties = {
@@ -14,9 +15,11 @@ const style: CSSProperties = {
 export default function List() {
     return (
         <div className="component-list" style={style}>
-            <DraggableCalendar/>
+            <DraggableCalendar />
             {/* <Calendar /> */}
-            <Button />
+            <DraggableButtonA />
+            <DraggableButtonB />
+            <DraggableButtonC />
             <Carousel />
         </div>
     );
