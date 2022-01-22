@@ -2,11 +2,12 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import { ComponentType } from "../Preview";
 interface IProps {
-    id: number;
+    id: number | undefined;
     componentType: ComponentType;
     changeList: any;
+    dragFromPreview: boolean;
 }
-const ComponentBox: React.FC<IProps> = ({ componentType, id, changeList }) => {
+const ComponentBox: React.FC<IProps> = ({ componentType, id, dragFromPreview, changeList }) => {
     const [, drag] = useDrag(() => ({
         type: "Draggable-Component",
         item: { type: componentType.type, id },
@@ -19,6 +20,10 @@ const ComponentBox: React.FC<IProps> = ({ componentType, id, changeList }) => {
         //     });
         // },
     }));
-    return drag(<div className="draggable-box">{componentType.com}</div>);
+    return drag(
+        <div className="draggable-box" style={componentType.style}>
+            {{...componentType.com}}
+        </div>
+    );
 };
 export default ComponentBox;

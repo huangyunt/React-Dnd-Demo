@@ -1,5 +1,6 @@
 import { Carousel } from "antd";
 const contentStyle: React.CSSProperties = {
+    // width: "",
     height: "160px",
     color: "#fff",
     lineHeight: "160px",
@@ -9,11 +10,19 @@ const contentStyle: React.CSSProperties = {
 
 const MyCarousel: React.FC<{ style?: any }> = ({ style }) => {
     return (
-        <Carousel effect="fade" style={style}>
-            <div>
-                <h3 style={contentStyle}>1</h3>
-            </div>
-        </Carousel>
+        <div style={{width: "300px"}}>
+            <Carousel effect="fade" style={style}>
+                <div>
+                    <h3 style={contentStyle}>1</h3>
+                </div>
+                <div>
+                    <h3 style={contentStyle}>2</h3>
+                </div>
+                <div>
+                    <h3 style={contentStyle}>3</h3>
+                </div>
+            </Carousel>
+        </div>
     );
-}
+};
 export default MyCarousel;

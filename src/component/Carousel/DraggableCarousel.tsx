@@ -7,9 +7,9 @@ const DraggableCarousel: React.FC<{ style?: any }> = ({ style }) => {
         item: { type: "Carousel" },
     }));
     return (
-        <div ref={drag} style={{width: "90%"}}>
-            <Carousel style={style}/>
+        <div ref={drag}>
+            <Carousel style={style} />
         </div>
     );
-}
+};
 export default DraggableCarousel;

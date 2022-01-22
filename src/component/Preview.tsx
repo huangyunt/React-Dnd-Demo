@@ -7,73 +7,71 @@ import Calendar from "./Calendar/Calendar";
 import Carousel from "./Carousel/Carousel";
 import ComponentBox from "./Component-box/ComponentBox";
 export interface ComponentType {
-    id: number;
+    id: number | undefined;
     type: string;
+    style: any;
     com?: JSX.Element;
 }
 const style: CSSProperties = {
     position: "relative",
-    flex: 1,
+    minWidth: 800,
     border: "5px solid green",
 };
 export default function Preview() {
-    const [componentList, setComponentList] = useState<ComponentType[]>([]);
     const ref = useRef<HTMLDivElement>(null);
     const count = useRef<number>(0);
+    const [dragFromPreview, setDragFromPreview] = useState(false);
+    const [componentList, setComponentList] = useState<ComponentType[]>([]);
     const [, drop] = useDrop(() => ({
         accept: "Draggable-Component",
+        // 这里传id是区分预览区内拖拽，传了就是预览区内拖拽
         drop: (item: { type: string; id?: number }, monitor) => {
+            const isFromPreview = typeof item.id !== "undefined";
             // 以父容器为基准定位
             const dropBox = ref.current!.getBoundingClientRect();
             const clientOffset = monitor.getClientOffset();
             const initSourceOffset = monitor.getInitialSourceClientOffset();
             const initOffset = monitor.getInitialClientOffset();
-            // console.log("x: ", initOffset!.x);
-            // console.log("y: ", initOffset!.y);
             // 拿到鼠标指针在被拖拽组件内部起始的相对位置
             const mouseClientX = initOffset!.x - initSourceOffset!.x;
             const mouseClientY = initOffset!.y - initSourceOffset!.y;
-            // console.log("x: ", mouseClientX);
-            // console.log("y: ", mouseClientY);
-            console.log("x: ", clientOffset!.x);
-            console.log("y: ", clientOffset!.y);
             const comStyle = {
                 position: "absolute",
                 left: clientOffset!.x - dropBox.left - mouseClientX - 5,
                 top: clientOffset!.y - dropBox.top - mouseClientY - 5,
             };
             const component: ComponentType = {
-                id: typeof item.id !== "undefined" ? item.id : count.current++,
+                id: isFromPreview ? item.id : count.current++,
                 type: item.type,
+                style: comStyle,
             };
             switch (item.type) {
                 case "Calendar":
-                    component.com = <Calendar style={comStyle} />;
+                    component.com = <Calendar />;
                     break;
                 case "Button1":
-                    component.com = <ButtonA style={comStyle} />;
+                    component.com = <ButtonA />;
                     break;
                 case "Button2":
-                    component.com = <ButtonB style={comStyle} />;
+                    component.com = <ButtonB />;
                     break;
                 case "Button3":
-                    component.com = <ButtonC style={comStyle} />;
+                    component.com = <ButtonC />;
                     break;
                 case "Carousel":
-                    component.com = <Carousel style={comStyle} />;
+                    component.com = <Carousel />;
                     break;
                 default:
                     break;
             }
 
+            setDragFromPreview(() => (isFromPreview ? true : false));
             setComponentList(list => {
                 const ind = list.findIndex(op => op.id === item.id);
                 const ret = [...list];
-                if (ind === -1) {
-                    ret.push(component);
-                } else {
-                    ret.splice(ind, 1, component);
-                }
+                ind === -1
+                    ? ret.push(component)
+                    : ret.splice(ind, 1, component);
                 return ret;
             });
         },
@@ -86,6 +84,7 @@ export default function Preview() {
                     componentType={val}
                     id={val.id}
                     changeList={setComponentList}
+                    dragFromPreview={dragFromPreview}
                 />
             ))}
         </div>
