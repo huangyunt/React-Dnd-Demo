@@ -1,4 +1,5 @@
 import { Carousel } from "antd";
+import { WithDraggable } from "../../utils/draggable";
 const contentStyle: React.CSSProperties = {
     // width: "",
     height: "160px",
@@ -26,3 +27,4 @@ const MyCarousel: React.FC<{ style?: any }> = ({ style }) => {
     );
 };
 export default MyCarousel;
+export const DraggableCarousel = WithDraggable("Carousel")(MyCarousel);

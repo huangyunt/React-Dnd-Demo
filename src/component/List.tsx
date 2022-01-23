@@ -3,8 +3,8 @@ import { DraggableButtonA } from "./Button/ButtonA";
 import { DraggableButtonB } from "./Button/ButtonB";
 import { DraggableButtonC } from "./Button/ButtonC";
 
-import DraggableCalendar from "./Calendar/DraggableCalendar";
-import DraggableCarousel from "./Carousel/DraggableCarousel";
+import { DraggableCalendar } from "./Calendar/Calendar";
+import { DraggableCarousel } from "./Carousel/Carousel";
 const style: CSSProperties = {
     display: "flex",
     flexDirection: "column",
