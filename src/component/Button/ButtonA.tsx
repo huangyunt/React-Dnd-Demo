@@ -1,11 +1,10 @@
 import { Button } from "antd";
 import { WithDraggable } from "../../utils/draggable";
-const ButtonA: React.FC<{ style?: any }> = ({ style }) => {
+export const ButtonA: React.FC<any> = props => {
     return (
-        <Button type="primary" style={style}>
+        <Button type="primary" {...props}>
             Primary Button
         </Button>
     );
 };
-export default ButtonA;
-export const DraggableButtonA = WithDraggable("Button1")(ButtonA)
+export const DraggableButtonA = WithDraggable("Button1")(ButtonA);

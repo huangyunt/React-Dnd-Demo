@@ -1,8 +1,8 @@
 import { CSSProperties, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
-import ButtonA from "./Button/ButtonA";
-import ButtonB from "./Button/ButtonB";
-import ButtonC from "./Button/ButtonC";
+import { ButtonA } from "./Button/ButtonA";
+import { ButtonB } from "./Button/ButtonB";
+import { ButtonC } from "./Button/ButtonC";
 import Calendar from "./Calendar/Calendar";
 import Carousel from "./Carousel/Carousel";
 import ComponentBox from "./Component-box/ComponentBox";

@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
-import DraggableButtonA from "./Button/DraggableButtonA";
-import DraggableButtonB from "./Button/DraggableButtonB";
-import DraggableButtonC from "./Button/DraggableButtonC";
+import { DraggableButtonA } from "./Button/ButtonA";
+import { DraggableButtonB } from "./Button/ButtonB";
+import { DraggableButtonC } from "./Button/ButtonC";
+
 import DraggableCalendar from "./Calendar/DraggableCalendar";
 import DraggableCarousel from "./Carousel/DraggableCarousel";
 const style: CSSProperties = {
