@@ -1,16 +1,15 @@
 import React from "react";
 import { useDrag } from "react-dnd";
+import { WithDraggable } from "../../utils/draggable";
 import { ComponentType } from "../Preview";
 interface IProps {
     id: number | undefined;
     componentType: ComponentType;
-    changeList: any;
-    dragFromPreview: boolean;
 }
-const ComponentBox: React.FC<IProps> = ({ componentType, id, dragFromPreview, changeList }) => {
+const ComponentBox: React.FC<IProps> = ({ componentType, id }) => {
     const [, drag] = useDrag(() => ({
         type: "Draggable-Component",
-        item: { type: componentType.type, id },
+        item: { type: "Draggable-Box", id },
         // end: () => {
         //     changeList((list: Array<ComponentType>) => {
         //         const ind = list.findIndex(ot => ot.id === id);

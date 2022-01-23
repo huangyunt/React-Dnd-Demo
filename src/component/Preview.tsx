@@ -8,7 +8,6 @@ import Carousel from "./Carousel/Carousel";
 import ComponentBox from "./Component-box/ComponentBox";
 export interface ComponentType {
     id: number | undefined;
-    type: string;
     style: any;
     com?: JSX.Element;
 }
@@ -20,7 +19,6 @@ const style: CSSProperties = {
 export default function Preview() {
     const ref = useRef<HTMLDivElement>(null);
     const count = useRef<number>(0);
-    const [dragFromPreview, setDragFromPreview] = useState(false);
     const [componentList, setComponentList] = useState<ComponentType[]>([]);
     const [, drop] = useDrop(() => ({
         accept: "Draggable-Component",
@@ -42,9 +40,9 @@ export default function Preview() {
             };
             const component: ComponentType = {
                 id: isFromPreview ? item.id : count.current++,
-                type: item.type,
                 style: comStyle,
             };
+            // 这里做映射
             switch (item.type) {
                 case "Calendar":
                     component.com = <Calendar />;
@@ -65,13 +63,11 @@ export default function Preview() {
                     break;
             }
 
-            setDragFromPreview(() => (isFromPreview ? true : false));
             setComponentList(list => {
                 const ind = list.findIndex(op => op.id === item.id);
                 const ret = [...list];
-                ind === -1
-                    ? ret.push(component)
-                    : ret.splice(ind, 1, component);
+                // ret保存预览区的组件，如果ret中有当前组件，说明是从预览区拖拽的
+                ind !== -1 ? (ret[ind].style = comStyle) : ret.push(component);
                 return ret;
             });
         },
@@ -79,13 +75,7 @@ export default function Preview() {
     return drop(
         <div style={style} ref={ref}>
             {componentList.map((val, index) => (
-                <ComponentBox
-                    key={index}
-                    componentType={val}
-                    id={val.id}
-                    changeList={setComponentList}
-                    dragFromPreview={dragFromPreview}
-                />
+                <ComponentBox key={index} componentType={val} id={val.id} />
             ))}
         </div>
     );
