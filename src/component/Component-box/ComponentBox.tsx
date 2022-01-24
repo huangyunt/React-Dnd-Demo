@@ -21,7 +21,7 @@ const ComponentBox: React.FC<IProps> = ({ componentType, id }) => {
     }));
     return drag(
         <div className="draggable-box" style={componentType.style}>
-            {{...componentType.com}}
+            {{ ...componentType.com }}
         </div>
     );
 };
