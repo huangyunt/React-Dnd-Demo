@@ -1,6 +1,5 @@
 import React from "react";
 import { useDrag } from "react-dnd";
-import { WithDraggable } from "../../utils/draggable";
 import { ComponentType } from "../Preview";
 interface IProps {
     id: number | undefined;

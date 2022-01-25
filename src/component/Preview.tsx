@@ -1,91 +1,122 @@
-import { CSSProperties, useState, useRef, useCallback } from "react";
-import { useDrop } from "react-dnd";
+import { CSSProperties, useRef, useState } from "react";
+import { DropTargetMonitor, useDrop } from "react-dnd";
 import { ButtonA } from "./Button/ButtonA";
 import { ButtonB } from "./Button/ButtonB";
 import { ButtonC } from "./Button/ButtonC";
 import Calendar from "./Calendar/Calendar";
 import Carousel from "./Carousel/Carousel";
-import ComponentBox from "./Component-box/ComponentBox";
-import { Responsive, WidthProvider } from "react-grid-layout";
-const ResponsiveGridLayout = WidthProvider(Responsive);
+import { Layout, Responsive, WidthProvider } from "react-grid-layout";
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export interface ComponentType {
     id: number | undefined;
     style: any;
     com?: JSX.Element;
 }
 const style: CSSProperties = {
-    position: "relative",
+    // position: "relative",
     minWidth: 800,
     border: "5px solid green",
 };
 export default function Preview() {
-    const ref = useRef<HTMLDivElement>(null);
-    const count = useRef<number>(0);
-    const [componentList, setComponentList] = useState<ComponentType[]>([]);
-    const computeLayout = useCallback(
-        () => ({
-            accept: "Draggable-Component",
-            // 这里传id是区分预览区内拖拽，传了就是预览区内拖拽
-            drop: (item: { type: string; id?: number }, monitor: any) => {
-                const isFromPreview = typeof item.id !== "undefined";
-                // 以父容器为基准定位
-                const dropBox = ref.current!.getBoundingClientRect();
-                const clientOffset = monitor.getClientOffset();
-                const initSourceOffset = monitor.getInitialSourceClientOffset();
-                const initOffset = monitor.getInitialClientOffset();
-                // 拿到鼠标指针在被拖拽组件内部起始的相对位置
-                const mouseClientX = initOffset!.x - initSourceOffset!.x;
-                const mouseClientY = initOffset!.y - initSourceOffset!.y;
-                const comStyle = {
-                    position: "absolute",
-                    left: clientOffset!.x - dropBox.left - mouseClientX - 5,
-                    top: clientOffset!.y - dropBox.top - mouseClientY - 5,
-                };
-                const component: ComponentType = {
-                    id: isFromPreview ? item.id : count.current++,
-                    style: comStyle,
-                };
-                // 这里做映射
-                switch (item.type) {
-                    case "Calendar":
-                        component.com = <Calendar />;
-                        break;
-                    case "Button1":
-                        component.com = <ButtonA />;
-                        break;
-                    case "Button2":
-                        component.com = <ButtonB />;
-                        break;
-                    case "Button3":
-                        component.com = <ButtonC />;
-                        break;
-                    case "Carousel":
-                        component.com = <Carousel />;
-                        break;
-                    default:
-                        break;
-                }
-
-                setComponentList(list => {
-                    const ind = list.findIndex(op => op.id === item.id);
-                    const ret = [...list];
-                    // ret保存预览区的组件，如果ret中有当前组件，说明是从预览区拖拽的
-                    ind !== -1
-                        ? (ret[ind].style = comStyle)
-                        : ret.push(component);
-                    return ret;
-                });
-            },
-        }),
-        [ref, count]
-    );
-
-    const [, drop] = useDrop(computeLayout);
-    return drop(
-        <div style={style} ref={ref}>
-            {componentList.map((val, index) => (
-                <ComponentBox key={index} componentType={val} id={val.id} />
-            ))}
+    // 得有个layout（所有grid的布局信息）
+    // 有个componentList（组件实例）
+    const componentList = useRef<React.FC<any>[]>([]);
+    // const [componentList, setComponentList] = useState<React.FC<any>[]>([]);
+    const [layouts, setLayout] = useState<Layout[]>([]);
+    const [, drop] = useDrop(() => ({
+        accept: "Draggable-Component",
+        drop: (item: { type: string }, monitor: DropTargetMonitor) => {
+            let lay: Layout = {
+                x: 0,
+                y: Infinity,
+                w: 3,
+                h: 3,
+                i: new Date().getTime().toString(),
+            };
+            let component: any;
+            // 这里做映射
+            switch (item.type) {
+                case "Calendar":
+                    component = Calendar;
+                    lay = {
+                        x: 0,
+                        y: Infinity,
+                        w: 3,
+                        h: 3.05,
+                        maxH: 3.05,
+                        minH: 3.05,
+                        maxW: 3,
+                        minW: 3,
+                        i: new Date().getTime().toString(),
+                    };
+                    break;
+                case "Button1":
+                    component = ButtonA;
+                    lay = {
+                        x: 0,
+                        y: Infinity,
+                        w: 2,
+                        h: 0.8,
+                        i: new Date().getTime().toString(),
+                    };
+                    break;
+                case "Button2":
+                    component = ButtonB;
+                    lay = {
+                        x: 0,
+                        y: Infinity,
+                        w: 2,
+                        h: 0.8,
+                        i: new Date().getTime().toString(),
+                    };
+                    break;
+                case "Button3":
+                    component = ButtonC;
+                    lay = {
+                        x: 0,
+                        y: Infinity,
+                        w: 2,
+                        h: 0.8,
+                        i: new Date().getTime().toString(),
+                    };
+                    break;
+                case "Carousel":
+                    component = Carousel;
+                    lay = {
+                        x: 0,
+                        y: Infinity,
+                        w: 2.5,
+                        h: 1.5,
+                        i: new Date().getTime().toString(),
+                    };
+                    break;
+                default:
+                    break;
+            }
+            componentList.current.push(component);
+            setLayout(oldLayout => {
+                lay.x = oldLayout.length * 3;
+                return [...oldLayout, lay];
+            });
+        },
+    }));
+    return (
+        <div style={style} ref={drop}>
+            <ResponsiveReactGridLayout
+                className="layout"
+                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+                rowHeight={100}
+                layouts={{ layouts }}
+            >
+                {componentList.current.map((FnComponent, ind) => (
+                    <div key={ind} data-grid={layouts[ind]}>
+                        <FnComponent
+                            style={{ width: "100%", height: "100%" }}
+                        />
+                    </div>
+                ))}
+            </ResponsiveReactGridLayout>
         </div>
     );
 }

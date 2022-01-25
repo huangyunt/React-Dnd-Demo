@@ -11,7 +11,7 @@ const contentStyle: React.CSSProperties = {
 
 const MyCarousel: React.FC<{ style?: any }> = ({ style }) => {
     return (
-        <div style={{width: "300px"}}>
+        <div style={{ width: "300px" }}>
             <Carousel effect="fade" style={style}>
                 <div>
                     <h3 style={contentStyle}>1</h3>
