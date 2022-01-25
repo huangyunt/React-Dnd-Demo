@@ -11,6 +11,7 @@ export interface ComponentType {
     id: number | undefined;
     style: any;
     com?: JSX.Element;
+    component?:React.FC
 }
 const style: CSSProperties = {
     // position: "relative",
