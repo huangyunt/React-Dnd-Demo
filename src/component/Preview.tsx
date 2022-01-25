@@ -1,4 +1,4 @@
-import { CSSProperties, useState, useRef } from "react";
+import React, { CSSProperties, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { ButtonA } from "./Button/ButtonA";
 import { ButtonB } from "./Button/ButtonB";
@@ -11,6 +11,7 @@ export interface ComponentType {
     type: string;
     style: any;
     com?: JSX.Element;
+    component?:React.FC
 }
 const style: CSSProperties = {
     position: "relative",
@@ -25,7 +26,8 @@ export default function Preview() {
     const [, drop] = useDrop(() => ({
         accept: "Draggable-Component",
         // 这里传id是区分预览区内拖拽，传了就是预览区内拖拽
-        drop: (item: { type: string; id?: number }, monitor) => {
+        drop: (item: { type: string; id?: number,component:React.FC }, monitor) => {
+            console.log(item);
             const isFromPreview = typeof item.id !== "undefined";
             // 以父容器为基准定位
             const dropBox = ref.current!.getBoundingClientRect();
@@ -44,28 +46,13 @@ export default function Preview() {
                 id: isFromPreview ? item.id : count.current++,
                 type: item.type,
                 style: comStyle,
-            };
-            switch (item.type) {
-                case "Calendar":
-                    component.com = <Calendar />;
-                    break;
-                case "Button1":
-                    component.com = <ButtonA />;
-                    break;
-                case "Button2":
-                    component.com = <ButtonB />;
-                    break;
-                case "Button3":
-                    component.com = <ButtonC />;
-                    break;
-                case "Carousel":
-                    component.com = <Carousel />;
-                    break;
-                default:
-                    break;
             }
 
+            component.com=<item.component/>
+            component.component=item.component
+
             setDragFromPreview(() => (isFromPreview ? true : false));
+
             setComponentList(list => {
                 const ind = list.findIndex(op => op.id === item.id);
                 const ret = [...list];

@@ -10,7 +10,7 @@ interface IProps {
 const ComponentBox: React.FC<IProps> = ({ componentType, id, dragFromPreview, changeList }) => {
     const [, drag] = useDrag(() => ({
         type: "Draggable-Component",
-        item: { type: componentType.type, id },
+        item: { type: componentType.type, id,component:componentType?.component },
         // end: () => {
         //     changeList((list: Array<ComponentType>) => {
         //         const ind = list.findIndex(ot => ot.id === id);

@@ -5,7 +5,7 @@ export function WithDraggable(itemType: string): (component: React.FC) => React.
         return function DraggableComponent(props) {
             const [, drag] = useDrag(() => ({
                 type: "Draggable-Component",
-                item: { type: itemType },
+                item: { type: itemType,component:Component },
             }));
             return (
                 <div ref={drag}>
