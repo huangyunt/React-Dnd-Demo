@@ -19,10 +19,7 @@ const style: CSSProperties = {
     border: "5px solid green",
 };
 export default function Preview() {
-    // 得有个layout（所有grid的布局信息）
-    // 有个componentList（组件实例）
     const componentList = useRef<React.FC<any>[]>([]);
-    // const [componentList, setComponentList] = useState<React.FC<any>[]>([]);
     const [layouts, setLayout] = useState<Layout[]>([]);
     const [, drop] = useDrop(() => ({
         accept: "Draggable-Component",
